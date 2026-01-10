@@ -1,0 +1,15 @@
+<div class="board mx-auto">
+  @for (row of chessGame$().squares; track chessGame$) {
+    <div class="row flex w-full">
+      @for (square of row; track square) {
+        <div
+          class="square"
+          [ngClass]="{
+            dark: square.isDark,
+            light: !square.isDark,
+          }"
+        ></div>
+      }
+    </div>
+  }
+</div>

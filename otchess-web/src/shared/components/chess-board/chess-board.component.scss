@@ -1,0 +1,19 @@
+$dark: #d28c45;
+$light: #ffcf9f;
+
+.board {
+  max-width: 500px;
+
+  .square {
+    aspect-ratio: 1 / 1;
+    width: 100%;
+  }
+
+  .dark {
+    background-color: $dark;
+  }
+
+  .light {
+    background-color: $light;
+  }
+}

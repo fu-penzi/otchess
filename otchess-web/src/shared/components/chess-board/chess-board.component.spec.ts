@@ -1,0 +1,23 @@
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { ChessBoardComponent } from './chess-board.component';
+
+describe('ChessBoard', () => {
+  let component: ChessBoardComponent;
+  let fixture: ComponentFixture<ChessBoardComponent>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [ChessBoardComponent]
+    })
+    .compileComponents();
+
+    fixture = TestBed.createComponent(ChessBoardComponent);
+    component = fixture.componentInstance;
+    await fixture.whenStable();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});
