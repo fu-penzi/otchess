@@ -34,13 +34,6 @@ $light: #ffcf9f;
   font-size: 8px;
 }
 
-.color-dark {
-  color: $dark;
-}
-.color-light {
-  color: $light;
-}
-
 .board {
   max-width: 500px;
 
@@ -52,18 +45,24 @@ $light: #ffcf9f;
 
   .piece {
     position: absolute;
-    width: 95%;
-    height: 95%;
-    margin: auto;
-    z-index: 100;
+    padding: 2px;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+
+    &.cdk-drag-dragging {
+      z-index: 2;
+    }
   }
 
   .dark {
     background-color: $dark;
+    color: $light;
   }
 
   .light {
     background-color: $light;
+    color: $dark;
   }
 }
 
