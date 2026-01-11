@@ -1,12 +1,61 @@
 $dark: #d28c45;
 $light: #ffcf9f;
 
+.square-shadow {
+  position: absolute;
+  inset: 50%;
+  background-color: rgba(0, 0, 0, 0.5);
+  transform: translate(-50%, -50%);
+
+  &-circle {
+    height: 25%;
+    width: 25%;
+    border-radius: 100px;
+  }
+  &-full {
+    height: 100%;
+    width: 100%;
+  }
+}
+
+.num-col {
+  font-weight: bold;
+  position: absolute;
+  left: 2px;
+  top: -2px;
+  font-size: 8px;
+}
+
+.num-row {
+  font-weight: bold;
+  position: absolute;
+  right: 3px;
+  bottom: -4px;
+  font-size: 8px;
+}
+
+.color-dark {
+  color: $dark;
+}
+.color-light {
+  color: $light;
+}
+
 .board {
   max-width: 500px;
 
   .square {
+    position: relative;
     aspect-ratio: 1 / 1;
     width: 100%;
+  }
+
+  .piece {
+    position: absolute;
+    width: 95%;
+    height: 95%;
+    margin: auto;
+    z-index: 100;
   }
 
   .dark {
@@ -16,4 +65,8 @@ $light: #ffcf9f;
   .light {
     background-color: $light;
   }
+}
+
+img:hover {
+  cursor: pointer;
 }

@@ -1,14 +1,49 @@
 <div class="board mx-auto">
-  @for (row of chessGame$().squares; track chessGame$) {
+  @for (row of $chessBoard(); track row; let lastRow = $last) {
     <div class="row flex w-full">
-      @for (square of row; track square) {
-        <div
-          class="square"
-          [ngClass]="{
-            dark: square.isDark,
-            light: !square.isDark,
-          }"
-        ></div>
+      @for (square of row; track square; let firstCol = $first) {
+        <div class="square" [ngClass]="{ dark: square.isDark, light: !square.isDark }">
+          @if (canMoveTo(square)) {
+            <div class="square-shadow square-shadow-circle"></div>
+          }
+          @if (square === draggedSquare$()) {
+            <div class="square-shadow square-shadow-full"></div>
+          }
+
+          <ng-container>
+            @if (firstCol) {
+              <span
+                class="num-col"
+                [ngClass]="{ 'color-light': square.isDark, 'color-dark': !square.isDark }"
+                >{{ square.pos.row + 1 }}</span
+              >
+            }
+            @if (lastRow) {
+              <span
+                class="num-row"
+                [ngClass]="{ 'color-light': square.isDark, 'color-dark': !square.isDark }"
+                >{{ rowLetters[square.pos.col] }}</span
+              >
+            }
+          </ng-container>
+
+          @if (square.piece) {
+            @if (pieceDraggable(square.piece)) {
+              <img
+                class="piece"
+                cdkDrag
+                (cdkDragStarted)="onPieceDrag(square)"
+                (cdkDragEnded)="onPieceDrop($event, square)"
+                [cdkDragFreeDragPosition]="
+                  dragPositions[square.pos.row * chessBoardDim + square.pos.col]
+                "
+                [src]="'assets/' + getPieceImage(square.piece)"
+              />
+            } @else {
+              <img class="piece" [src]="'assets/' + getPieceImage(square.piece)" />
+            }
+          }
+        </div>
       }
     </div>
   }
