@@ -3,44 +3,38 @@
     <div class="row flex w-full">
       @for (square of row; track square; let firstCol = $first) {
         <div class="square" [ngClass]="{ dark: square.isDark, light: !square.isDark }">
-          @if (canMoveTo(square)) {
-            <div class="square-shadow square-shadow-circle"></div>
-          }
-          @if (square === draggedSquare$()) {
-            <div class="square-shadow square-shadow-full"></div>
-          }
+          <ng-container>
+            @if (canMoveTo(square)) {
+              <div class="square-shadow square-shadow-circle"></div>
+            }
+            @if (square === $draggedSquare()) {
+              <div class="square-shadow square-shadow-full"></div>
+            }
+          </ng-container>
 
           <ng-container>
             @if (firstCol) {
-              <span
-                class="num-col"
-                [ngClass]="{ 'color-light': square.isDark, 'color-dark': !square.isDark }"
-                >{{ square.pos.row + 1 }}</span
-              >
+              <span class="num-col">{{ square.pos.row + 1 }}</span>
             }
             @if (lastRow) {
-              <span
-                class="num-row"
-                [ngClass]="{ 'color-light': square.isDark, 'color-dark': !square.isDark }"
-                >{{ rowLetters[square.pos.col] }}</span
-              >
+              <span class="num-row">{{ rowLetters[square.pos.col] }}</span>
             }
           </ng-container>
 
           @if (square.piece) {
             @if (pieceDraggable(square.piece)) {
-              <img
+              <app-chess-piece
                 class="piece"
+                [piece]="square.piece"
                 cdkDrag
                 (cdkDragStarted)="onPieceDrag(square)"
                 (cdkDragEnded)="onPieceDrop($event, square)"
                 [cdkDragFreeDragPosition]="
-                  dragPositions[square.pos.row * chessBoardDim + square.pos.col]
+                  $dragPositions()[square.pos.row * chessBoardDim + square.pos.col]
                 "
-                [src]="'assets/' + getPieceImage(square.piece)"
-              />
+              ></app-chess-piece>
             } @else {
-              <img class="piece" [src]="'assets/' + getPieceImage(square.piece)" />
+              <app-chess-piece class="piece" [piece]="square.piece"> </app-chess-piece>
             }
           }
         </div>
