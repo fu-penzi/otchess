@@ -168,43 +168,65 @@ export class GameLogicService {
         break;
       }
       case PieceTypeEnum.Rook: {
-        for (let y = square.pos.row + 1; y < chessBoardDim; y++) {
-          if (!this._isValidMove(y, square.pos.col)) {
-            break;
+        [-1, 1].forEach((offset: number) => {
+          for (let y = square.pos.row + offset; this._isValidDim(y); y += offset) {
+            if (!this._isValidMove(y, square.pos.col)) {
+              break;
+            }
+            squares.push(game.squares[y][square.pos.col]);
+            if (this._hasEnemyPiece(y, square.pos.col)) {
+              break;
+            }
           }
-          squares.push(game.squares[y][square.pos.col]);
-          if (this._hasEnemyPiece(y, square.pos.col)) {
-            break;
+        });
+        [-1, 1].forEach((offset: number) => {
+          for (let x = square.pos.col + offset; this._isValidDim(x); x += offset) {
+            if (!this._isValidMove(square.pos.row, x)) {
+              break;
+            }
+            squares.push(game.squares[square.pos.row][x]);
+            if (this._hasEnemyPiece(square.pos.row, x)) {
+              break;
+            }
           }
-        }
-        for (let y = square.pos.row - 1; y >= 0; y--) {
-          if (!this._isValidMove(y, square.pos.col)) {
-            break;
+        });
+        break;
+      }
+      case PieceTypeEnum.Bishop: {
+        [-1, 1].forEach((offset: number) => {
+          let x = square.pos.col + offset;
+          for (
+            let y = square.pos.row + offset;
+            this._isValidDim(y) && this._isValidDim(x);
+            y += offset
+          ) {
+            if (!this._isValidMove(y, x)) {
+              break;
+            }
+            squares.push(game.squares[y][x]);
+            if (this._hasEnemyPiece(y, x)) {
+              break;
+            }
+            x += offset;
           }
-          squares.push(game.squares[y][square.pos.col]);
-          if (this._hasEnemyPiece(y, square.pos.col)) {
-            break;
+        });
+        [-1, 1].forEach((offset: number) => {
+          let x = square.pos.col + -offset;
+          for (
+            let y = square.pos.row + offset;
+            this._isValidDim(y) && this._isValidDim(x);
+            y += offset
+          ) {
+            if (!this._isValidMove(y, x)) {
+              break;
+            }
+            squares.push(game.squares[y][x]);
+            if (this._hasEnemyPiece(y, x)) {
+              break;
+            }
+            x -= offset;
           }
-        }
-
-        for (let x = square.pos.col + 1; x < chessBoardDim; x++) {
-          if (!this._isValidMove(square.pos.row, x)) {
-            break;
-          }
-          squares.push(game.squares[square.pos.row][x]);
-          if (this._hasEnemyPiece(square.pos.row, x)) {
-            break;
-          }
-        }
-        for (let x = square.pos.col - 1; x >= 0; x--) {
-          if (!this._isValidMove(square.pos.row, x)) {
-            break;
-          }
-          squares.push(game.squares[square.pos.row][x]);
-          if (this._hasEnemyPiece(square.pos.row, x)) {
-            break;
-          }
-        }
+        });
         break;
       }
     }
