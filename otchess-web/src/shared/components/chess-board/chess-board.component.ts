@@ -70,8 +70,8 @@ export class ChessBoardComponent implements OnInit {
     const offsetX = Math.round(e.distance.x / elWidth);
     const offsetY = (this._$boardReversed() ? 1 : -1) * Math.round(e.distance.y / elWidth);
 
-    this._gameLogicService.movePiece(square, { col: pos.col + offsetX, row: pos.row + offsetY });
     this.$dragPositions()[pos.row * chessBoardDim + pos.col] = { x: 0, y: 0 };
+    this._gameLogicService.movePiece(square, { col: pos.col + offsetX, row: pos.row + offsetY });
   }
 
   protected readonly rowLetters = rowLetters;

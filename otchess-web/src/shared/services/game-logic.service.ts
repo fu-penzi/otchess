@@ -89,6 +89,7 @@ export class GameLogicService {
 
   movePiece(square: Square, endPos: Position) {
     if (
+      (endPos.row === square.pos.row && endPos.col === square.pos.col) ||
       endPos.row > chessBoardDim ||
       endPos.row < 0 ||
       endPos.col > chessBoardDim ||
@@ -107,15 +108,66 @@ export class GameLogicService {
   }
 
   getPossibleMoves(square: Square | null): Square[] {
-    if (!square) {
+    if (!square || !square.piece) {
       return [];
     }
+    const { pos } = square;
+    const game: Game = this.$chessGame();
     const squares: Square[] = [];
-    switch (square.piece?.type) {
+
+    switch (square.piece.type) {
       case PieceTypeEnum.Pawn:
-        squares.push(this.$chessGame().squares[square.pos.row + 1][square.pos.col]);
+        if (this._isValidDim(pos.row + 1)) {
+          squares.push(game.squares[pos.row + 1][pos.col]);
+        }
+        break;
+      case PieceTypeEnum.King:
+        for (const i of [-1, 0, 1]) {
+          let row = pos.row + i;
+          if (!this._isValidDim(row)) {
+            continue;
+          }
+          if (this._isValidMove(row, pos.col)) {
+            squares.push(game.squares[row][pos.col]);
+          }
+          if (this._isValidMove(row, pos.col - 1)) {
+            squares.push(game.squares[row][pos.col - 1]);
+          }
+          if (this._isValidMove(row, pos.col + 1)) {
+            squares.push(game.squares[row][pos.col + 1]);
+          }
+        }
+        break;
+      case PieceTypeEnum.Knight:
+        const moveSet: number[][] = [
+          [2, -1],
+          [2, 1],
+          [-2, -1],
+          [-2, 1],
+          [1, -2],
+          [1, 2],
+          [-1, -2],
+          [-1, 2],
+        ];
+        for (const offset of moveSet) {
+          if (this._isValidMove(pos.row + offset[0], pos.col + offset[1])) {
+            squares.push(game.squares[pos.row + offset[0]][pos.col + offset[1]]);
+          }
+        }
+        break;
     }
     return squares;
+  }
+
+  private _isValidMove(row: number, col: number): boolean {
+    if (!this._isValidDim(row) || !this._isValidDim(col)) {
+      return false;
+    }
+    const targetSquare: Square = this.$chessGame().squares[row][col];
+    return !targetSquare.piece || targetSquare.piece.color !== this.$chessGame().player;
+  }
+  private _isValidDim(idx: number): boolean {
+    return idx < chessBoardDim && idx >= 0;
   }
 
   private _canMove(square: Square, endPos: Position): boolean {
