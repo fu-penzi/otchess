@@ -4,8 +4,9 @@ $light: #ffcf9f;
 .square-shadow {
   position: absolute;
   inset: 50%;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(146, 104, 217, 0.89);
   transform: translate(-50%, -50%);
+  z-index: 3;
 
   &-circle {
     height: 25%;
@@ -51,7 +52,7 @@ $light: #ffcf9f;
     z-index: 1;
 
     &.cdk-drag-dragging {
-      z-index: 2;
+      z-index: 4;
     }
   }
 

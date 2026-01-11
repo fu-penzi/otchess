@@ -168,68 +168,87 @@ export class GameLogicService {
         break;
       }
       case PieceTypeEnum.Rook: {
-        [-1, 1].forEach((offset: number) => {
-          for (let y = square.pos.row + offset; this._isValidDim(y); y += offset) {
-            if (!this._isValidMove(y, square.pos.col)) {
-              break;
-            }
-            squares.push(game.squares[y][square.pos.col]);
-            if (this._hasEnemyPiece(y, square.pos.col)) {
-              break;
-            }
-          }
-        });
-        [-1, 1].forEach((offset: number) => {
-          for (let x = square.pos.col + offset; this._isValidDim(x); x += offset) {
-            if (!this._isValidMove(square.pos.row, x)) {
-              break;
-            }
-            squares.push(game.squares[square.pos.row][x]);
-            if (this._hasEnemyPiece(square.pos.row, x)) {
-              break;
-            }
-          }
-        });
+        squares.push(...this._getRookMoveset(square));
         break;
       }
       case PieceTypeEnum.Bishop: {
-        [-1, 1].forEach((offset: number) => {
-          let x = square.pos.col + offset;
-          for (
-            let y = square.pos.row + offset;
-            this._isValidDim(y) && this._isValidDim(x);
-            y += offset
-          ) {
-            if (!this._isValidMove(y, x)) {
-              break;
-            }
-            squares.push(game.squares[y][x]);
-            if (this._hasEnemyPiece(y, x)) {
-              break;
-            }
-            x += offset;
-          }
-        });
-        [-1, 1].forEach((offset: number) => {
-          let x = square.pos.col + -offset;
-          for (
-            let y = square.pos.row + offset;
-            this._isValidDim(y) && this._isValidDim(x);
-            y += offset
-          ) {
-            if (!this._isValidMove(y, x)) {
-              break;
-            }
-            squares.push(game.squares[y][x]);
-            if (this._hasEnemyPiece(y, x)) {
-              break;
-            }
-            x -= offset;
-          }
-        });
+        squares.push(...this._getBishopMoveset(square));
+        break;
+      }
+      case PieceTypeEnum.Queen: {
+        squares.push(...this._getBishopMoveset(square), ...this._getRookMoveset(square));
         break;
       }
     }
+    return squares;
+  }
+  private _getRookMoveset(square: Square): Square[] {
+    const squares: Square[] = [];
+    const game: Game = this.$chessGame();
+
+    [-1, 1].forEach((offset: number) => {
+      for (let y = square.pos.row + offset; this._isValidDim(y); y += offset) {
+        if (!this._isValidMove(y, square.pos.col)) {
+          break;
+        }
+        squares.push(game.squares[y][square.pos.col]);
+        if (this._hasEnemyPiece(y, square.pos.col)) {
+          break;
+        }
+      }
+    });
+    [-1, 1].forEach((offset: number) => {
+      for (let x = square.pos.col + offset; this._isValidDim(x); x += offset) {
+        if (!this._isValidMove(square.pos.row, x)) {
+          break;
+        }
+        squares.push(game.squares[square.pos.row][x]);
+        if (this._hasEnemyPiece(square.pos.row, x)) {
+          break;
+        }
+      }
+    });
+    return squares;
+  }
+
+  private _getBishopMoveset(square: Square): Square[] {
+    const squares: Square[] = [];
+    const game: Game = this.$chessGame();
+
+    [-1, 1].forEach((offset: number) => {
+      let x = square.pos.col + offset;
+      for (
+        let y = square.pos.row + offset;
+        this._isValidDim(y) && this._isValidDim(x);
+        y += offset
+      ) {
+        if (!this._isValidMove(y, x)) {
+          break;
+        }
+        squares.push(game.squares[y][x]);
+        if (this._hasEnemyPiece(y, x)) {
+          break;
+        }
+        x += offset;
+      }
+    });
+    [-1, 1].forEach((offset: number) => {
+      let x = square.pos.col + -offset;
+      for (
+        let y = square.pos.row + offset;
+        this._isValidDim(y) && this._isValidDim(x);
+        y += offset
+      ) {
+        if (!this._isValidMove(y, x)) {
+          break;
+        }
+        squares.push(game.squares[y][x]);
+        if (this._hasEnemyPiece(y, x)) {
+          break;
+        }
+        x -= offset;
+      }
+    });
     return squares;
   }
 
