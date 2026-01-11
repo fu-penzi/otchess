@@ -50,7 +50,7 @@ export class ChessBoardComponent implements OnInit {
   }
 
   pieceDraggable(piece: Piece): boolean {
-    return piece.color === this._gameLogicService.$chessGame().player;
+    return piece.color === this._gameLogicService.$chessGame().playerNowMoving;
   }
 
   onPieceDrag(square: Square) {
