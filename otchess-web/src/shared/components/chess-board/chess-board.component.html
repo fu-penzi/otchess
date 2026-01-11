@@ -5,7 +5,7 @@
         <div class="square" [ngClass]="{ dark: square.isDark, light: !square.isDark }">
           <ng-container>
             @if (canMoveTo(square)) {
-              <div class="square-shadow square-shadow-circle"></div>
+              <div class="square-shadow square-shadow-circle" [class.square-shadow-strong]="!!square.piece"></div>
             }
             @if (square === $draggedSquare()) {
               <div class="square-shadow square-shadow-full"></div>

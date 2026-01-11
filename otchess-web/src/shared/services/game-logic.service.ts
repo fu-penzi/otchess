@@ -125,10 +125,41 @@ export class GameLogicService {
 
     switch (square.piece.type) {
       case PieceTypeEnum.Pawn: {
-        const offsetY = game.playerNowMoving === PieceColorEnum.Black ? -1 : 1;
-        if (this._isValidMove(pos.row + offsetY, pos.col)) {
+        let offsetY: number = game.playerNowMoving === PieceColorEnum.Black ? -1 : 1;
+
+        if (
+          this._isValidMove(pos.row + offsetY, pos.col) &&
+          !this._hasEnemyPiece(pos.row + offsetY, pos.col)
+        ) {
           squares.push(game.squares[pos.row + offsetY][pos.col]);
         }
+
+        if (
+          this._isValidMove(pos.row + offsetY, pos.col + 1) &&
+          this._hasEnemyPiece(pos.row + offsetY, pos.col + 1)
+        ) {
+          squares.push(game.squares[pos.row + offsetY][pos.col + 1]);
+        }
+
+        if (
+          this._isValidMove(pos.row + offsetY, pos.col - 1) &&
+          this._hasEnemyPiece(pos.row + offsetY, pos.col - 1)
+        ) {
+          squares.push(game.squares[pos.row + offsetY][pos.col - 1]);
+        }
+
+        const pawnRow: number = game.playerNowMoving === PieceColorEnum.Black ? 6 : 1;
+        if (square.pos.row === pawnRow) {
+          offsetY *= 2;
+        }
+
+        if (
+          this._isValidMove(pos.row + offsetY, pos.col) &&
+          !this._hasEnemyPiece(pos.row + offsetY, pos.col)
+        ) {
+          squares.push(game.squares[pos.row + offsetY][pos.col]);
+        }
+
         break;
       }
       case PieceTypeEnum.King: {
