@@ -9,7 +9,7 @@ import { routes } from './app.routes';
 import { environment } from '@src/environments/environment';
 
 if (environment.production) {
-  console.assert = function () {};
+  console.assert = function () { /* empty */ };
 }
 
 export const appConfig: ApplicationConfig = {

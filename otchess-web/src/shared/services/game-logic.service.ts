@@ -1,4 +1,4 @@
-import { Injectable, Signal, signal, WritableSignal } from '@angular/core';
+import { Injectable, Signal, signal } from '@angular/core';
 
 export type Board = Square[][];
 
@@ -37,21 +37,20 @@ export enum PieceTypeEnum {
   Knight = 'Knight',
 }
 
-export const chessBoardDim: number = 8;
+export const chessBoardDim = 8;
 
 @Injectable({
   providedIn: 'root',
 })
 export class GameLogicService {
-  private _$chessGame: WritableSignal<Game> = signal({
+  private readonly _$chessGame = signal<Game>({
     squares: [],
     player: PieceColorEnum.White,
     playerNowMoving: PieceColorEnum.White,
   });
-
   readonly $chessGame: Signal<Game> = this._$chessGame.asReadonly();
 
-  startGame() {
+  startGame(): void {
     const firstRowSeq: PieceTypeEnum[] = [
       PieceTypeEnum.Rook,
       PieceTypeEnum.Knight,
@@ -92,7 +91,7 @@ export class GameLogicService {
     this._$chessGame.update((game) => ({ ...game, squares }));
   }
 
-  movePiece(square: Square, endPos: Position) {
+  movePiece(square: Square, endPos: Position): void {
     if (
       (endPos.row === square.pos.row && endPos.col === square.pos.col) ||
       endPos.row > chessBoardDim ||
@@ -126,6 +125,7 @@ export class GameLogicService {
     switch (square.piece.type) {
       case PieceTypeEnum.Pawn: {
         let offsetY: number = game.playerNowMoving === PieceColorEnum.Black ? -1 : 1;
+        const pawnRow: number = game.playerNowMoving === PieceColorEnum.Black ? 6 : 1;
 
         if (
           this._isValidMove(pos.row + offsetY, pos.col) &&
@@ -133,14 +133,12 @@ export class GameLogicService {
         ) {
           squares.push(game.squares[pos.row + offsetY][pos.col]);
         }
-
         if (
           this._isValidMove(pos.row + offsetY, pos.col + 1) &&
           this._hasEnemyPiece(pos.row + offsetY, pos.col + 1)
         ) {
           squares.push(game.squares[pos.row + offsetY][pos.col + 1]);
         }
-
         if (
           this._isValidMove(pos.row + offsetY, pos.col - 1) &&
           this._hasEnemyPiece(pos.row + offsetY, pos.col - 1)
@@ -148,11 +146,9 @@ export class GameLogicService {
           squares.push(game.squares[pos.row + offsetY][pos.col - 1]);
         }
 
-        const pawnRow: number = game.playerNowMoving === PieceColorEnum.Black ? 6 : 1;
         if (square.pos.row === pawnRow) {
           offsetY *= 2;
         }
-
         if (
           this._isValidMove(pos.row + offsetY, pos.col) &&
           !this._hasEnemyPiece(pos.row + offsetY, pos.col)
@@ -164,7 +160,7 @@ export class GameLogicService {
       }
       case PieceTypeEnum.King: {
         for (const i of [-1, 0, 1]) {
-          let row = pos.row + i;
+          const row = pos.row + i;
           if (!this._isValidDim(row)) {
             continue;
           }

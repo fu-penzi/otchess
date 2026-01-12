@@ -1,4 +1,4 @@
-import { Component, computed, inject, OnInit, signal, Signal, WritableSignal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { NgClass } from '@angular/common';
 import {
   Board,
@@ -10,7 +10,7 @@ import {
 } from '@src/shared/services/game-logic.service';
 
 import { CdkDrag, CdkDragEnd } from '@angular/cdk/drag-drop';
-import { ChessPieceComponent } from '@src/shared/components/chess-board/components/chess-piece/chess-piece.component';
+import { ChessPieceComponent } from '@src/shared/components/chess-board/chess-piece/chess-piece.component';
 
 export const rowLetters: string[] = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
 
@@ -37,27 +37,27 @@ export class ChessBoardComponent implements OnInit {
   private readonly _$boardReversed = computed<boolean>(
     () => this._gameLogicService.$chessGame().player === PieceColorEnum.Black,
   );
-  readonly _$possibleMoves = computed<Square[]>(() =>
+  private readonly _$possibleMoves = computed<Square[]>(() =>
     this._gameLogicService.getPossibleMoves(this.$draggedSquare()),
   );
 
-  canMoveTo(square: Square): boolean {
-    return this._$possibleMoves().includes(square);
-  }
-
   ngOnInit(): void {
     this._gameLogicService.startGame();
+  }
+
+  canMoveTo(square: Square): boolean {
+    return this._$possibleMoves().includes(square);
   }
 
   pieceDraggable(piece: Piece): boolean {
     return piece.color === this._gameLogicService.$chessGame().playerNowMoving;
   }
 
-  onPieceDrag(square: Square) {
+  onPieceDrag(square: Square): void {
     this.$draggedSquare.set(square);
   }
 
-  onPieceDrop(e: CdkDragEnd, square: Square) {
+  onPieceDrop(cdkDragEnd: CdkDragEnd, square: Square): void {
     this.$draggedSquare.set(null);
     const { piece, pos }: Square = square;
 
@@ -65,10 +65,10 @@ export class ChessBoardComponent implements OnInit {
     if (!piece) {
       return;
     }
-    const elWidth: number = ((e.event.target as HTMLElement).parentElement as HTMLElement)
+    const elWidth: number = ((cdkDragEnd.event.target as HTMLElement).parentElement as HTMLElement)
       .offsetWidth;
-    const offsetX = Math.round(e.distance.x / elWidth);
-    const offsetY = (this._$boardReversed() ? 1 : -1) * Math.round(e.distance.y / elWidth);
+    const offsetX = Math.round(cdkDragEnd.distance.x / elWidth);
+    const offsetY = (this._$boardReversed() ? 1 : -1) * Math.round(cdkDragEnd.distance.y / elWidth);
 
     this.$dragPositions()[pos.row * chessBoardDim + pos.col] = { x: 0, y: 0 };
     this._gameLogicService.movePiece(square, { col: pos.col + offsetX, row: pos.row + offsetY });

@@ -7,6 +7,4 @@ import { ChessBoardComponent } from '@src/shared/components/chess-board/chess-bo
   templateUrl: './landing-page.component.html',
   styleUrl: './landing-page.component.scss',
 })
-export class LandingPageComponent {
-  constructor() {}
-}
+export class LandingPageComponent {}
