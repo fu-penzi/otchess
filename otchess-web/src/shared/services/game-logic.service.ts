@@ -94,14 +94,10 @@ export class GameLogicService {
   movePiece(square: Square, endPos: Position): void {
     if (
       (endPos.row === square.pos.row && endPos.col === square.pos.col) ||
-      endPos.row > chessBoardDim ||
-      endPos.row < 0 ||
-      endPos.col > chessBoardDim ||
-      endPos.col < 0
+      !this._isValidDim(endPos.row) ||
+      !this._isValidDim(endPos.col) ||
+      !this._canMove(square, endPos)
     ) {
-      return;
-    }
-    if (!this._canMove(square, endPos)) {
       return;
     }
     this._$chessGame.update((game: Game) => {
@@ -124,36 +120,31 @@ export class GameLogicService {
 
     switch (square.piece.type) {
       case PieceTypeEnum.Pawn: {
-        let offsetY: number = game.playerNowMoving === PieceColorEnum.Black ? -1 : 1;
-        const pawnRow: number = game.playerNowMoving === PieceColorEnum.Black ? 6 : 1;
+        const direction: number = game.playerNowMoving === PieceColorEnum.Black ? -1 : 1;
+        const startingRow: number = game.playerNowMoving === PieceColorEnum.Black ? 6 : 1;
 
-        if (
-          this._isValidMove(pos.row + offsetY, pos.col) &&
-          !this._hasEnemyPiece(pos.row + offsetY, pos.col)
-        ) {
-          squares.push(game.squares[pos.row + offsetY][pos.col]);
-        }
-        if (
-          this._isValidMove(pos.row + offsetY, pos.col + 1) &&
-          this._hasEnemyPiece(pos.row + offsetY, pos.col + 1)
-        ) {
-          squares.push(game.squares[pos.row + offsetY][pos.col + 1]);
-        }
-        if (
-          this._isValidMove(pos.row + offsetY, pos.col - 1) &&
-          this._hasEnemyPiece(pos.row + offsetY, pos.col - 1)
-        ) {
-          squares.push(game.squares[pos.row + offsetY][pos.col - 1]);
+        // Forward move
+        const forwardPos = pos.row + direction;
+        if (this._isValidMove(forwardPos, pos.col) && !this._hasEnemyPiece(forwardPos, pos.col)) {
+          squares.push(game.squares[forwardPos][pos.col]);
         }
 
-        if (square.pos.row === pawnRow) {
-          offsetY *= 2;
-        }
-        if (
-          this._isValidMove(pos.row + offsetY, pos.col) &&
-          !this._hasEnemyPiece(pos.row + offsetY, pos.col)
-        ) {
-          squares.push(game.squares[pos.row + offsetY][pos.col]);
+        // Diagonal captures
+        [pos.col + 1, pos.col - 1].forEach((col) => {
+          if (this._isValidMove(forwardPos, col) && this._hasEnemyPiece(forwardPos, col)) {
+            squares.push(game.squares[forwardPos][col]);
+          }
+        });
+
+        // Double forward move from starting position
+        if (square.pos.row === startingRow) {
+          const doubleForwardPos = pos.row + direction * 2;
+          if (
+            this._isValidMove(doubleForwardPos, pos.col) &&
+            !this._hasEnemyPiece(doubleForwardPos, pos.col)
+          ) {
+            squares.push(game.squares[doubleForwardPos][pos.col]);
+          }
         }
 
         break;
@@ -213,6 +204,7 @@ export class GameLogicService {
     const squares: Square[] = [];
     const game: Game = this.$chessGame();
 
+    // Vertical movement
     [-1, 1].forEach((offset: number) => {
       for (let y = square.pos.row + offset; this._isValidDim(y); y += offset) {
         if (!this._isValidMove(y, square.pos.col)) {
@@ -224,6 +216,7 @@ export class GameLogicService {
         }
       }
     });
+    // Horizontal movement
     [-1, 1].forEach((offset: number) => {
       for (let x = square.pos.col + offset; this._isValidDim(x); x += offset) {
         if (!this._isValidMove(square.pos.row, x)) {
