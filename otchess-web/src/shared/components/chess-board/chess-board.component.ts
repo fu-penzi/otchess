@@ -9,8 +9,8 @@ import {
   Square,
 } from '@src/shared/services/game-logic.service';
 
-import { CdkDrag, CdkDragEnd } from '@angular/cdk/drag-drop';
 import { ChessPieceComponent } from '@src/shared/components/chess-board/chess-piece/chess-piece.component';
+import { CdkDrag, CdkDragEnd } from '@angular/cdk/drag-drop';
 
 export const rowLetters: string[] = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
 
@@ -25,6 +25,7 @@ interface DragPosition {
   styleUrl: './chess-board.component.scss',
 })
 export class ChessBoardComponent implements OnInit {
+  public cursorPosition: DragPosition = { x: 0, y: 0 };
   readonly $draggedSquare = signal<Square | null>(null);
   readonly $dragPositions = signal<DragPosition[]>([...Array(64).fill({ x: 0, y: 0 })]);
   readonly $chessBoard = computed<Board>(() => {

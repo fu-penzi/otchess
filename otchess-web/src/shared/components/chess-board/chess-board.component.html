@@ -1,44 +1,50 @@
 <div class="board mx-auto">
   @for (row of $chessBoard(); track row; let lastRow = $last) {
-    <div class="row flex w-full">
-      @for (square of row; track square; let firstCol = $first) {
-        <div class="square" [ngClass]="{ dark: square.isDark, light: !square.isDark }">
-          <ng-container>
-            @if (canMoveTo(square)) {
-              <div class="square-shadow square-shadow-circle" [class.square-shadow-strong]="!!square.piece"></div>
-            }
-            @if (square === $draggedSquare()) {
-              <div class="square-shadow square-shadow-full"></div>
-            }
-          </ng-container>
+    @for (square of row; track square; let firstCol = $first) {
+      <div
+        class="square"
+        [ngClass]="{
+          dark: square.isDark,
+          light: !square.isDark,
+          accent: square === $draggedSquare(),
+          dragging: !!$draggedSquare(),
+        }"
+      >
+        @if (canMoveTo(square)) {
+          <div
+            [ngClass]="{
+              'square-shadow-circle': !square.piece,
+              'square-shadow-corners': !!square.piece,
+            }"
+          ></div>
+        }
 
-          <ng-container>
-            @if (firstCol) {
-              <span class="num-col">{{ square.pos.row + 1 }}</span>
-            }
-            @if (lastRow) {
-              <span class="num-row">{{ rowLetters[square.pos.col] }}</span>
-            }
-          </ng-container>
-
-          @if (square.piece) {
-            @if (pieceDraggable(square.piece)) {
-              <app-chess-piece
-                class="piece"
-                [piece]="square.piece"
-                cdkDrag
-                (cdkDragStarted)="onPieceDrag(square)"
-                (cdkDragEnded)="onPieceDrop($event, square)"
-                [cdkDragFreeDragPosition]="
-                  $dragPositions()[square.pos.row * chessBoardDim + square.pos.col]
-                "
-              ></app-chess-piece>
-            } @else {
-              <app-chess-piece class="piece" [piece]="square.piece"> </app-chess-piece>
-            }
+        <ng-container>
+          @if (firstCol) {
+            <span class="num-col">{{ square.pos.row + 1 }}</span>
           }
-        </div>
-      }
-    </div>
+          @if (lastRow) {
+            <span class="num-row">{{ rowLetters[square.pos.col] }}</span>
+          }
+        </ng-container>
+
+        @if (square.piece) {
+          @if (pieceDraggable(square.piece)) {
+            <app-chess-piece
+              class="piece"
+              [piece]="square.piece"
+              cdkDrag
+              (cdkDragStarted)="onPieceDrag(square)"
+              (cdkDragEnded)="onPieceDrop($event, square)"
+              [cdkDragFreeDragPosition]="
+                $dragPositions()[square.pos.row * chessBoardDim + square.pos.col]
+              "
+            ></app-chess-piece>
+          } @else {
+            <app-chess-piece class="piece" [piece]="square.piece"></app-chess-piece>
+          }
+        }
+      </div>
+    }
   }
 </div>
