@@ -1,0 +1,35 @@
+:host {
+  display: block;
+  max-width: 500px;
+  margin: 0 auto;
+
+  td,
+  th {
+    padding-right: 5px;
+    padding-left: 5px;
+    margin-bottom: 10px;
+  }
+
+  th {
+    background: var(--mat-sys-background);
+    border-right: 1px solid var(--mat-sys-background);
+    border-left: 1px solid var(--mat-sys-background);
+    padding: 5px 10px;
+    margin-right: 10px;
+  }
+
+  td {
+    padding-bottom: 15px;
+    padding-top: 15px;
+    border-bottom: 1px solid #ffffff1e;
+  }
+
+  td:last-of-type,
+  th:last-of-type {
+    padding-right: 20px;
+  }
+  td:first-of-type,
+  th:first-of-type {
+    padding-left: 20px;
+  }
+}

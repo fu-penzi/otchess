@@ -1,16 +1,43 @@
-<div class="px-1 mt-10 w-full">
-  <mat-card class="w-full p-4">
-    <div class="p-2">
-      <div class="flex mb-7">
-        <div style="border-radius: 100000px" class="mr-5 w-20 overflow-hidden">
-          <img class="object-cover w-full h-full" src="assets/mao.jpg" alt="" />
-        </div>
-        <div class="text-3xl font-mono font-bold white">{{ $username() }}</div>
-      </div>
+<app-custom-card class="mt-10 w-full py-4" [showDivider]="false">
+  <div class="px-4 flex">
+    <app-round-icon class="mr-5 w-20" imgSrc="assets/testing/mao.jpg"></app-round-icon>
+    <div class="text-3xl font-mono font-bold">{{ $username() }}</div>
+  </div>
+</app-custom-card>
 
-      <mat-divider class="pb-5"></mat-divider>
+<app-custom-card class="mt-5 w-full">
+  <div class="py-3 px-4" header>Game History ({{ $gameHistory().length }})</div>
 
-      <h2 class="font-mono text-2xl">Game History</h2>
-    </div>
-  </mat-card>
-</div>
+  <div class="mb-6">
+    <table class="w-full">
+      <tr>
+        <th class="text-left">Against</th>
+        <th class="text-center">Result</th>
+        <th>Moves</th>
+        <th class="text-end"></th>
+      </tr>
+
+      @for (entry of $gameHistory(); track entry) {
+        <tr>
+          <td>
+            <div class="flex gap-2 items-center">
+              <app-round-icon class="w-5 h-5" imgSrc="assets/testing/mao.jpg"> </app-round-icon>
+              <span>{{ entry.username }}</span>
+            </div>
+          </td>
+          <td
+            class="text-center"
+            [class.text-green-700]="entry.result === 'Won'"
+            [class.text-red-700]="entry.result === 'Lost'"
+            [class.text-yellow-700]="entry.result === 'Draw'"
+          >
+            {{ entry.result }}
+          </td>
+          <td class="text-center">{{ entry.moves }}</td>
+          <td class="text-end">{{ entry.date | date: 'dd.MM.yy, h:mm a' }}</td>
+          <div class="my-5"><mat-divider></mat-divider></div>
+        </tr>
+      }
+    </table>
+  </div>
+</app-custom-card>
