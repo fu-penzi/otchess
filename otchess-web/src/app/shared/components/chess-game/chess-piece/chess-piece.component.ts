@@ -19,7 +19,7 @@ import { Piece, PieceColorEnum, PieceTypeEnum } from '@shared/services/game-logi
   selector: 'app-chess-piece',
   imports: [],
   templateUrl: './chess-piece.component.html',
-  styleUrl: './chess-piece.component.css',
+  styleUrl: './chess-piece.component.scss',
 })
 export class ChessPieceComponent {
   readonly piece = input<Piece>();

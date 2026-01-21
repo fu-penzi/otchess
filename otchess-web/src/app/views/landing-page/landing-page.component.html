@@ -1,33 +1,34 @@
 <div class="mt-10 mx-auto w-fit">
-  <div class="mx-5">
-    <mat-card class="w-fit">
-      <mat-card-header>
-        <div class="w-full my-4 text-2xl text-center font-mono">Choose Your Game Mode</div>
-      </mat-card-header>
+  <mat-card class="mx-5 w-fit">
+    <mat-card-header>
+      <div class="flex w-full items-center justify-center gap-3">
+        <img class="-ml-5" src="assets/knight_wh.svg" alt="" />
+        <div class="my-4 text-3xl text-center font-mono font-bold white">Choose Game Mode</div>
+      </div>
+    </mat-card-header>
 
-      <mat-card-content>
-        <mat-divider></mat-divider>
+    <mat-card-content>
+      <mat-divider class="pb-5"></mat-divider>
 
-        <div class="mt-5 flex flex-col gap-4">
-          <app-icon-fab
-            matIcon="public"
-            label="Play online"
-            secondaryText="Challenge another player to a game"
-          ></app-icon-fab>
+      <div class="flex flex-col gap-4 px-5 pb-4">
+        <app-icon-fab
+          matIcon="public"
+          label="Play online"
+          secondaryText="Challenge another player to a game"
+        ></app-icon-fab>
 
-          <app-icon-fab
-            matIcon="person"
-            label="Play with a friend"
-            secondaryText="Challenge a friend to a chess match"
-          ></app-icon-fab>
+        <app-icon-fab
+          matIcon="person"
+          label="Play with a friend"
+          secondaryText="Challenge a friend to a chess match"
+        ></app-icon-fab>
 
-          <app-icon-fab
-            iconSrc="assets/rook_wh_icon.svg"
-            label="Chess puzzle"
-            secondaryText="Solve chess puzzles and improve your skills"
-          ></app-icon-fab>
-        </div>
-      </mat-card-content>
-    </mat-card>
-  </div>
+        <app-icon-fab
+          iconSrc="assets/rook_wh_icon.svg"
+          label="Chess puzzle"
+          secondaryText="Solve chess puzzles and improve your skills"
+        ></app-icon-fab>
+      </div>
+    </mat-card-content>
+  </mat-card>
 </div>

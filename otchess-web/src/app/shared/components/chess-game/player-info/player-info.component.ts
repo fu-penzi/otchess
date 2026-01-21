@@ -4,7 +4,7 @@ import { Component, input } from '@angular/core';
   selector: 'app-player-info',
   imports: [],
   templateUrl: './player-info.component.html',
-  styleUrl: './player-info.component.css',
+  styleUrl: './player-info.component.scss',
 })
 export class PlayerInfoComponent {
   name = input<string>();

@@ -1,12 +1,20 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatToolbar } from '@angular/material/toolbar';
-import { MatIconButton, MatAnchor } from '@angular/material/button';
-import {MatIconModule} from '@angular/material/icon';
+import { MatAnchor, MatButton } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { Router } from '@angular/router';
+import { UrlEnum } from '@app/app.routes';
 
 @Component({
   selector: 'app-navbar',
-  imports: [MatToolbar, MatIconModule, MatIconButton, MatAnchor],
+  imports: [MatToolbar, MatIconModule, MatAnchor, MatButton],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss',
 })
-export class NavbarComponent {}
+export class NavbarComponent {
+  private _router: Router = inject(Router);
+
+  goToLogin(): void {
+    this._router.navigateByUrl(UrlEnum.LOGIN);
+  }
+}

@@ -5,6 +5,6 @@ import { ChessGameComponent } from '@shared/components/chess-game/chess-game.com
   selector: 'app-game',
   imports: [ChessGameComponent],
   templateUrl: './game.component.html',
-  styleUrl: './game.component.css',
+  styleUrl: './game.component.scss',
 })
 export class GameComponent {}
