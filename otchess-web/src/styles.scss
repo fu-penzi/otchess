@@ -7,18 +7,32 @@
 
 html {
   height: 100%;
-  @include mat.theme((color: (theme-type: dark,
-        primary: mat.$orange-palette,
+  @include mat.theme(
+    (
+      color: (
+        theme-type: dark,
+        primary: mat.$cyan-palette,
         tertiary: mat.$red-palette,
       ),
       typography: Roboto,
-      density: -3,
-    ));
+      density: 0,
+    )
+  );
 }
 
 // :root {
 //   --mat-sys-surface: #29201d;
 // }
+
+.color-on-surface {
+  color: var(--mat-sys-on-surface);
+}
+
+mat-icon {
+  width: fit-content !important;
+  height: fit-content !important;
+  font-size: inherit !important;
+}
 
 body {
   // Default the application to a light color theme. This can be changed to
@@ -36,4 +50,8 @@ body {
   // Reset the user agent margin.
   margin: 0;
   height: 100%;
+}
+
+.white {
+  color: white;
 }
