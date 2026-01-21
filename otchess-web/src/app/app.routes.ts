@@ -3,12 +3,14 @@ import { LandingPageComponent } from '@app/views/landing-page/landing-page.compo
 import { GameComponent } from '@app/views/game/game.component';
 import { LoginComponent } from '@app/views/login/login.component';
 import { RegisterComponent } from '@app/views/register/register.component';
+import { ProfileComponent } from '@app/views/profile/profile.component';
 
 export enum UrlEnum {
   HOME = 'home',
   GAME = 'game',
   LOGIN = 'login',
   REGISTER = 'register',
+  PROFILE = 'user/:username',
 }
 
 export const routes: Routes = [
@@ -16,7 +18,6 @@ export const routes: Routes = [
     component: LandingPageComponent,
     path: UrlEnum.HOME,
   },
-
   {
     component: GameComponent,
     path: UrlEnum.GAME,
@@ -28,6 +29,10 @@ export const routes: Routes = [
   {
     component: RegisterComponent,
     path: UrlEnum.REGISTER,
+  },
+  {
+    path: UrlEnum.PROFILE,
+    component: ProfileComponent,
   },
   {
     path: '**',
