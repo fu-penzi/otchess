@@ -1,5 +1,4 @@
 import { Component, input } from '@angular/core';
-import { Piece, PieceColorEnum, PieceTypeEnum } from '@src/shared/services/game-logic.service';
 import {
   blackBishopSvg,
   blackKingSvg,
@@ -13,7 +12,8 @@ import {
   whitePawnSvg,
   whiteQueenSvg,
   whiteRookSvg,
-} from '@src/shared/assets';
+} from '@shared/assets';
+import { Piece, PieceColorEnum, PieceTypeEnum } from '@shared/services/game-logic.service.model';
 
 @Component({
   selector: 'app-chess-piece',

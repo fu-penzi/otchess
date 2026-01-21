@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { ChessBoardComponent } from '@src/shared/components/chess-board/chess-board.component';
+import { ChessGameComponent } from '@shared/components/chess-game/chess-game.component';
 
 @Component({
   selector: 'app-landing-page',
-  imports: [ChessBoardComponent],
+  imports: [ChessGameComponent],
   templateUrl: './landing-page.component.html',
   styleUrl: './landing-page.component.scss',
 })

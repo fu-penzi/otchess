@@ -7,24 +7,24 @@
 
 html {
   height: 100%;
-  @include mat.theme(
-    (
-      color: (
-        theme-type: dark,
+  @include mat.theme((color: (theme-type: dark,
         primary: mat.$orange-palette,
         tertiary: mat.$red-palette,
       ),
       typography: Roboto,
       density: -3,
-    )
-  );
+    ));
 }
+
+// :root {
+//   --mat-sys-surface: #29201d;
+// }
 
 body {
   // Default the application to a light color theme. This can be changed to
   // `dark` to enable the dark color theme, or to `light dark` to defer to the
   // user's system settings.
-  color-scheme: light;
+  color-scheme: dark;
 
   // Set a default background, font and text colors for the application using
   // Angular Material's system-level CSS variables. Learn more about these

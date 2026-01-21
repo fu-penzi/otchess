@@ -6,7 +6,8 @@
     "baseUrl": "./",
     "paths": {
       "@src/*": ["./src/*"],
-      "@app/*": ["./src/app/*"]
+      "@app/*": ["./src/app/*"],
+      "@shared/*": ["./src/app/shared/*"]
     },
     "strict": true,
     "noImplicitOverride": true,
