@@ -1,0 +1,32 @@
+<app-custom-card class="mt-5" [showDivider]="false">
+  <div class="py-6 header font-mono text-4xl text-center" header>Leaderboards</div>
+
+  <div class="mb-6">
+    <table class="w-full">
+      <tr>
+        <th class="text-left w-1/12"></th>
+        <th></th>
+        <th class="text-center w-1/6">Wins</th>
+        <th class="text-center w-1/6">Losses</th>
+        <th class="text-center w-1/6">Draws</th>
+      </tr>
+
+      @for (player of $players(); track player; let index = $index) {
+        <tr class="text-lg" [class.mat-bg-surface-container]="index % 2 !== 0">
+          <td class="text-center font-bold">
+            <span>{{ index + 1 }}</span>
+          </td>
+          <td>
+            <div class="flex pl-2 gap-2 items-center">
+              <app-round-icon class="w-5 h-5" imgSrc="assets/testing/mao.jpg"> </app-round-icon>
+              <span>{{ player.username }}</span>
+            </div>
+          </td>
+          <td class="text-center text-green-600">{{ player.wins }}</td>
+          <td class="text-center text-red-600">{{ player.losses }}</td>
+          <td class="text-center text-yellow-600">{{ player.draws }}</td>
+        </tr>
+      }
+    </table>
+  </div>
+</app-custom-card>

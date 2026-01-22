@@ -7,7 +7,7 @@ import { IconFabComponent } from '@shared/components/icon-fab/icon-fab.component
 
 @Component({
   selector: 'app-landing-page',
-  imports: [MatIcon, MatCardModule, MatButtonModule, MatDivider, IconFabComponent],
+  imports: [ MatCardModule, MatButtonModule, MatDivider, IconFabComponent],
   templateUrl: './landing-page.component.html',
   styleUrl: './landing-page.component.scss',
 })
