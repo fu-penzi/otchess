@@ -7,5 +7,5 @@ import { Component, input } from '@angular/core';
   styleUrl: './round-icon.component.scss',
 })
 export class RoundIconComponent {
-  imgSrc = input<string>('');
+  imgSrc = input<string | undefined>('');
 }

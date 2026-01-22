@@ -1,0 +1,24 @@
+:host {
+  display: block;
+  max-height: 80vh;
+  min-width: 300px;
+}
+
+.moves {
+  width: 100%;
+}
+
+td {
+  padding-bottom: 8px;
+  padding-top: 8px;
+  border-bottom: 1px solid #ffffff1e;
+}
+
+td:last-of-type,
+th:last-of-type {
+  padding-right: 20px;
+}
+td:first-of-type,
+th:first-of-type {
+  padding-left: 20px;
+}

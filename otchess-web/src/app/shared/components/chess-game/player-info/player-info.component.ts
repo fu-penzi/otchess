@@ -1,8 +1,9 @@
 import { Component, input } from '@angular/core';
+import { RoundIconComponent } from '@shared/components/round-icon/round-icon.component';
 
 @Component({
   selector: 'app-player-info',
-  imports: [],
+  imports: [RoundIconComponent],
   templateUrl: './player-info.component.html',
   styleUrl: './player-info.component.scss',
 })

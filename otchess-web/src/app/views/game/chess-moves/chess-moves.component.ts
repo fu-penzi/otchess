@@ -1,0 +1,80 @@
+import { Component, signal } from '@angular/core';
+import { CustomCardComponent } from '@shared/components/custom-card/custom-card.component';
+
+export interface ChessPieceMove {
+  from: string;
+  to: string;
+}
+
+@Component({
+  selector: 'app-chess-moves',
+  imports: [CustomCardComponent],
+  templateUrl: './chess-moves.component.html',
+  styleUrl: './chess-moves.component.scss',
+})
+export class ChessMovesComponent {
+  // Todo remove mock
+  $moves = signal<ChessPieceMove[]>([
+    { from: 'e4', to: 'f5' },
+    { from: 'f5', to: 'e4' },
+    { from: 'e4', to: 'f5' },
+    { from: 'f5', to: 'e4' },
+    { from: 'e4', to: 'f5' },
+    { from: 'f5', to: 'e4' },
+    { from: 'e4', to: 'f5' },
+    { from: 'e4', to: 'f5' },
+    { from: 'f5', to: 'e4' },
+    { from: 'e4', to: 'f5' },
+    { from: 'f5', to: 'e4' },
+    { from: 'e4', to: 'f5' },
+    { from: 'e4', to: 'f5' },
+    { from: 'f5', to: 'e4' },
+    { from: 'e4', to: 'f5' },
+    { from: 'f5', to: 'e4' },
+    { from: 'e4', to: 'f5' },
+    { from: 'e4', to: 'f5' },
+    { from: 'f5', to: 'e4' },
+    { from: 'f5', to: 'e4' },
+    { from: 'e4', to: 'f5' },
+    { from: 'e4', to: 'f5' },
+    { from: 'f5', to: 'e4' },
+    { from: 'e4', to: 'f5' },
+    { from: 'f5', to: 'e4' },
+    { from: 'e4', to: 'f5' },
+    { from: 'e4', to: 'f5' },
+    { from: 'f5', to: 'e4' },
+    { from: 'e4', to: 'f5' },
+    { from: 'f5', to: 'e4' },
+    { from: 'e4', to: 'f5' },
+    { from: 'e4', to: 'f5' },    { from: 'f5', to: 'e4' },
+    { from: 'e4', to: 'f5' },
+    { from: 'e4', to: 'f5' },
+    { from: 'f5', to: 'e4' },
+    { from: 'e4', to: 'f5' },
+    { from: 'f5', to: 'e4' },
+    { from: 'e4', to: 'f5' },
+    { from: 'e4', to: 'f5' },
+    { from: 'f5', to: 'e4' },
+    { from: 'e4', to: 'f5' },
+    { from: 'f5', to: 'e4' },
+    { from: 'e4', to: 'f5' },
+    { from: 'e4', to: 'f5' },    { from: 'f5', to: 'e4' },
+    { from: 'e4', to: 'f5' },
+    { from: 'e4', to: 'f5' },
+    { from: 'f5', to: 'e4' },
+    { from: 'e4', to: 'f5' },
+    { from: 'f5', to: 'e4' },
+    { from: 'e4', to: 'f5' },
+    { from: 'e4', to: 'f5' },
+    { from: 'f5', to: 'e4' },
+    { from: 'e4', to: 'f5' },
+    { from: 'f5', to: 'e4' },
+    { from: 'e4', to: 'f5' },
+    { from: 'e4', to: 'f5' },
+    { from: 'e4', to: 'f5' },
+    { from: 'f5', to: 'e4' },
+    { from: 'e4', to: 'f5' },
+    { from: 'e4', to: 'f5' },
+    { from: 'f5', to: 'e4' },
+  ]);
+}
