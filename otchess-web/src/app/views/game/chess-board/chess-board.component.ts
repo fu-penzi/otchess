@@ -10,7 +10,7 @@ import {
   Square,
 } from '@shared/services/game-logic.service.model';
 import { GameLogicService } from '@shared/services/game-logic.service';
-import { ChessPieceComponent } from '@shared/components/chess-game/chess-piece/chess-piece.component';
+import { ChessPieceComponent } from '@app/views/game/chess-piece/chess-piece.component';
 
 export const rowLetters: string[] = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
 
@@ -20,7 +20,7 @@ interface DragPosition {
 }
 @Component({
   selector: 'app-chess-board',
-  imports: [NgClass, CdkDrag, ChessPieceComponent],
+  imports: [NgClass, CdkDrag, ChessPieceComponent, ChessPieceComponent],
   templateUrl: './chess-board.component.html',
   styleUrl: './chess-board.component.scss',
 })

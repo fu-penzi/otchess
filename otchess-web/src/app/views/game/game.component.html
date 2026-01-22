@@ -1,7 +1,8 @@
-<div class="mx-1 mt-2 md:mt-0 flex justify-center flex-col md:flex-row gap-10 h-full">
+<div class="mx-1 pt-2 md:pt-0 flex justify-center flex-col md:flex-row gap-10 h-full max-h-full">
   <div class="chess-board w-full">
-    <app-chess-game></app-chess-game>
+    <app-player-info [name]="'fupenzi'" [imageSrc]="'assets/testing/mao.jpg'"></app-player-info>
+    <app-chess-board></app-chess-board>
+    <app-player-info [name]="'--penzi'" [imageSrc]="'assets/king_wh.svg'"></app-player-info>
   </div>
-
   <app-chess-moves></app-chess-moves>
 </div>
