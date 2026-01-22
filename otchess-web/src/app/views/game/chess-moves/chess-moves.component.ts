@@ -1,10 +1,7 @@
-import { Component, signal } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { CustomCardComponent } from '@shared/components/custom-card/custom-card.component';
-
-export interface ChessPieceMove {
-  from: string;
-  to: string;
-}
+import { ChessMove } from '@shared/services/game-logic.service.model';
+import { GameLogicService } from '@shared/services/game-logic.service';
 
 @Component({
   selector: 'app-chess-moves',
@@ -13,68 +10,6 @@ export interface ChessPieceMove {
   styleUrl: './chess-moves.component.scss',
 })
 export class ChessMovesComponent {
-  // Todo remove mock
-  $moves = signal<ChessPieceMove[]>([
-    { from: 'e4', to: 'f5' },
-    { from: 'f5', to: 'e4' },
-    { from: 'e4', to: 'f5' },
-    { from: 'f5', to: 'e4' },
-    { from: 'e4', to: 'f5' },
-    { from: 'f5', to: 'e4' },
-    { from: 'e4', to: 'f5' },
-    { from: 'e4', to: 'f5' },
-    { from: 'f5', to: 'e4' },
-    { from: 'e4', to: 'f5' },
-    { from: 'f5', to: 'e4' },
-    { from: 'e4', to: 'f5' },
-    { from: 'e4', to: 'f5' },
-    { from: 'f5', to: 'e4' },
-    { from: 'e4', to: 'f5' },
-    { from: 'f5', to: 'e4' },
-    { from: 'e4', to: 'f5' },
-    { from: 'e4', to: 'f5' },
-    { from: 'f5', to: 'e4' },
-    { from: 'f5', to: 'e4' },
-    { from: 'e4', to: 'f5' },
-    { from: 'e4', to: 'f5' },
-    { from: 'f5', to: 'e4' },
-    { from: 'e4', to: 'f5' },
-    { from: 'f5', to: 'e4' },
-    { from: 'e4', to: 'f5' },
-    { from: 'e4', to: 'f5' },
-    { from: 'f5', to: 'e4' },
-    { from: 'e4', to: 'f5' },
-    { from: 'f5', to: 'e4' },
-    { from: 'e4', to: 'f5' },
-    { from: 'e4', to: 'f5' },    { from: 'f5', to: 'e4' },
-    { from: 'e4', to: 'f5' },
-    { from: 'e4', to: 'f5' },
-    { from: 'f5', to: 'e4' },
-    { from: 'e4', to: 'f5' },
-    { from: 'f5', to: 'e4' },
-    { from: 'e4', to: 'f5' },
-    { from: 'e4', to: 'f5' },
-    { from: 'f5', to: 'e4' },
-    { from: 'e4', to: 'f5' },
-    { from: 'f5', to: 'e4' },
-    { from: 'e4', to: 'f5' },
-    { from: 'e4', to: 'f5' },    { from: 'f5', to: 'e4' },
-    { from: 'e4', to: 'f5' },
-    { from: 'e4', to: 'f5' },
-    { from: 'f5', to: 'e4' },
-    { from: 'e4', to: 'f5' },
-    { from: 'f5', to: 'e4' },
-    { from: 'e4', to: 'f5' },
-    { from: 'e4', to: 'f5' },
-    { from: 'f5', to: 'e4' },
-    { from: 'e4', to: 'f5' },
-    { from: 'f5', to: 'e4' },
-    { from: 'e4', to: 'f5' },
-    { from: 'e4', to: 'f5' },
-    { from: 'e4', to: 'f5' },
-    { from: 'f5', to: 'e4' },
-    { from: 'e4', to: 'f5' },
-    { from: 'e4', to: 'f5' },
-    { from: 'f5', to: 'e4' },
-  ]);
+  private readonly _gameLogicService = inject(GameLogicService);
+  readonly $moves = computed<ChessMove[]>(() => this._gameLogicService.$chessGame().moves);
 }

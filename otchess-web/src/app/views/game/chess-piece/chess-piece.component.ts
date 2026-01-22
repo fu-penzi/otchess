@@ -13,7 +13,7 @@ import {
   whiteQueenSvg,
   whiteRookSvg,
 } from '@shared/assets';
-import { Piece, PieceColorEnum, PieceTypeEnum } from '@shared/services/game-logic.service.model';
+import { ChessPiece, PieceColorEnum, PieceTypeEnum } from '@shared/services/game-logic.service.model';
 
 @Component({
   selector: 'app-chess-piece',
@@ -22,9 +22,9 @@ import { Piece, PieceColorEnum, PieceTypeEnum } from '@shared/services/game-logi
   styleUrl: './chess-piece.component.scss',
 })
 export class ChessPieceComponent {
-  readonly piece = input<Piece>();
+  readonly piece = input<ChessPiece>();
 
-  getPieceImage({ type, color }: Piece): string {
+  getPieceImage({ type, color }: ChessPiece): string {
     const isWhite = color === PieceColorEnum.White;
     switch (type) {
       case PieceTypeEnum.Pawn: {

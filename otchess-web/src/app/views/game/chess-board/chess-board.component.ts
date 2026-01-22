@@ -3,16 +3,16 @@ import { NgClass } from '@angular/common';
 
 import { CdkDrag, CdkDragEnd } from '@angular/cdk/drag-drop';
 import {
-  Board,
+  ChessBoard,
   chessBoardDim,
-  Piece,
+  newPosition,
+  ChessPiece,
   PieceColorEnum,
-  Square,
+  rowLetters,
+  ChessSquare,
 } from '@shared/services/game-logic.service.model';
 import { GameLogicService } from '@shared/services/game-logic.service';
 import { ChessPieceComponent } from '@app/views/game/chess-piece/chess-piece.component';
-
-export const rowLetters: string[] = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
 
 interface DragPosition {
   x: number;
@@ -25,9 +25,9 @@ interface DragPosition {
   styleUrl: './chess-board.component.scss',
 })
 export class ChessBoardComponent implements OnInit {
-  readonly $draggedSquare = signal<Square | null>(null);
+  readonly $draggedSquare = signal<ChessSquare | null>(null);
   readonly $dragPositions = signal<DragPosition[]>([...Array(64).fill({ x: 0, y: 0 })]);
-  readonly $chessBoard = computed<Board>(() => {
+  readonly $chessBoard = computed<ChessBoard>(() => {
     const { squares } = this._gameLogicService.$chessGame();
     return this._$boardReversed() ? squares : [...squares].reverse();
   });
@@ -37,7 +37,7 @@ export class ChessBoardComponent implements OnInit {
   private readonly _$boardReversed = computed<boolean>(
     () => this._gameLogicService.$chessGame().player === PieceColorEnum.Black,
   );
-  private readonly _$possibleMoves = computed<Square[]>(() =>
+  private readonly _$possibleMoves = computed<ChessSquare[]>(() =>
     this._gameLogicService.getPossibleMoves(this.$draggedSquare()),
   );
 
@@ -45,21 +45,21 @@ export class ChessBoardComponent implements OnInit {
     this._gameLogicService.startGame();
   }
 
-  canMoveTo(square: Square): boolean {
+  canMoveTo(square: ChessSquare): boolean {
     return this._$possibleMoves().includes(square);
   }
 
-  pieceDraggable(piece: Piece): boolean {
+  pieceDraggable(piece: ChessPiece): boolean {
     return piece.color === this._gameLogicService.$chessGame().playerNowMoving;
   }
 
-  onPieceDrag(square: Square): void {
+  onPieceDrag(square: ChessSquare): void {
     this.$draggedSquare.set(square);
   }
 
-  onPieceDrop(cdkDragEnd: CdkDragEnd, square: Square): void {
+  onPieceDrop(cdkDragEnd: CdkDragEnd, square: ChessSquare): void {
     this.$draggedSquare.set(null);
-    const { piece, pos }: Square = square;
+    const { piece, pos }: ChessSquare = square;
 
     console.assert(!!piece);
     if (!piece) {
@@ -71,7 +71,8 @@ export class ChessBoardComponent implements OnInit {
     const offsetY = (this._$boardReversed() ? 1 : -1) * Math.round(cdkDragEnd.distance.y / elWidth);
 
     this.$dragPositions()[pos.row * chessBoardDim + pos.col] = { x: 0, y: 0 };
-    this._gameLogicService.movePiece(square, { col: pos.col + offsetX, row: pos.row + offsetY });
+
+    this._gameLogicService.movePiece(square, newPosition(pos.row + offsetY, pos.col + offsetX));
   }
 
   protected readonly rowLetters = rowLetters;

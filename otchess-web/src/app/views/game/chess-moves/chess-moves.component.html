@@ -1,22 +1,24 @@
-<app-custom-card class="moves md:mt-2 w-full md:min-w-full max-h-96 md:max-h-full">
-  <div class="flex-1 py-3 px-4 text-center" header>Moves</div>
+<div class="md:mt-12 h-full">
+  <app-custom-card class="moves md:mt-2 w-full md:min-w-full max-h-96 md:max-h-full flex">
+    <div class="py-3 px-4 text-center" header>Moves</div>
 
-  <div class="flex-2 overflow-y-scroll text-left font-medium self-stretch">
-    <table class="w-full">
-      <tr>
-        <th class="w-1/4"></th>
-        <th></th>
-        <th></th>
-      </tr>
-      @for (move of $moves(); track move; let index = $index) {
-        <tr [class.mat-bg-surface-container]="index % 2 !== 0">
-          <td class="mat-text-on-surface-variant">
-            <span class="w-0.5">{{ index + 1 }}.</span>
-          </td>
-          <td>{{ move.from }}</td>
-          <td>{{ move.to }}</td>
+    <div class="scroll flex-1 overflow-y-auto text-left font-medium">
+      <table class="w-full">
+        <tr>
+          <th class="w-1/4"></th>
+          <th></th>
+          <th></th>
         </tr>
-      }
-    </table>
-  </div>
-</app-custom-card>
+        @for (move of $moves(); track move; let index = $index) {
+          <tr [class.mat-bg-surface-container]="index % 2 !== 0">
+            <td class="mat-text-on-surface-variant">
+              <span class="w-0.5">{{ index + 1 }}.</span>
+            </td>
+            <td>{{ move.from.id }}</td>
+            <td>{{ move.to.id }}</td>
+          </tr>
+        }
+      </table>
+    </div>
+  </app-custom-card>
+</div>

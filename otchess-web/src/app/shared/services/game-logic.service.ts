@@ -2,10 +2,11 @@ import { Injectable, Signal, signal } from '@angular/core';
 import {
   chessBoardDim,
   Game,
+  newPosition,
   PieceColorEnum,
   PieceTypeEnum,
-  Position,
-  Square,
+  ChessPosition,
+  ChessSquare,
 } from '@app/shared/services/game-logic.service.model';
 
 @Injectable({
@@ -14,6 +15,7 @@ import {
 export class GameLogicService {
   private readonly _$chessGame = signal<Game>({
     squares: [],
+    moves: [],
     player: PieceColorEnum.White,
     playerNowMoving: PieceColorEnum.White,
   });
@@ -31,11 +33,11 @@ export class GameLogicService {
       PieceTypeEnum.Rook,
     ];
 
-    const squares: Square[][] = [];
+    const squares: ChessSquare[][] = [];
     for (let row = 0; row < chessBoardDim; row++) {
-      const rowArr: Square[] = [];
+      const rowArr: ChessSquare[] = [];
       for (let col = 0; col < chessBoardDim; col++) {
-        rowArr.push({ isDark: (row + col) % 2 == 0, piece: null, pos: { row, col } });
+        rowArr.push({ isDark: (row + col) % 2 == 0, piece: null, pos: newPosition(row, col) });
       }
       squares.push(rowArr);
     }
@@ -60,7 +62,7 @@ export class GameLogicService {
     this._$chessGame.update((game) => ({ ...game, squares }));
   }
 
-  movePiece(square: Square, endPos: Position): void {
+  movePiece(square: ChessSquare, endPos: ChessPosition): void {
     if (
       (endPos.row === square.pos.row && endPos.col === square.pos.col) ||
       !this._isValidDim(endPos.row) ||
@@ -74,18 +76,18 @@ export class GameLogicService {
       game.squares[square.pos.row][square.pos.col].piece = null;
       game.playerNowMoving =
         game.playerNowMoving === PieceColorEnum.White ? PieceColorEnum.Black : PieceColorEnum.White;
-
+      game.moves.push({ from: square.pos, to: endPos });
       return game;
     });
   }
 
-  getPossibleMoves(square: Square | null): Square[] {
+  getPossibleMoves(square: ChessSquare | null): ChessSquare[] {
     if (!square || !square.piece) {
       return [];
     }
     const { pos } = square;
     const game: Game = this.$chessGame();
-    const squares: Square[] = [];
+    const squares: ChessSquare[] = [];
 
     switch (square.piece.type) {
       case PieceTypeEnum.Pawn: {
@@ -169,8 +171,8 @@ export class GameLogicService {
     }
     return squares;
   }
-  private _getRookMoveset(square: Square): Square[] {
-    const squares: Square[] = [];
+  private _getRookMoveset(square: ChessSquare): ChessSquare[] {
+    const squares: ChessSquare[] = [];
     const game: Game = this.$chessGame();
 
     // Vertical movement
@@ -200,8 +202,8 @@ export class GameLogicService {
     return squares;
   }
 
-  private _getBishopMoveset(square: Square): Square[] {
-    const squares: Square[] = [];
+  private _getBishopMoveset(square: ChessSquare): ChessSquare[] {
+    const squares: ChessSquare[] = [];
     const game: Game = this.$chessGame();
 
     [-1, 1].forEach((offset: number) => {
@@ -242,7 +244,7 @@ export class GameLogicService {
   }
 
   private _hasEnemyPiece(row: number, col: number): boolean {
-    const targetSquare: Square = this.$chessGame().squares[row][col];
+    const targetSquare: ChessSquare = this.$chessGame().squares[row][col];
     return !!targetSquare.piece && targetSquare.piece.color !== this.$chessGame().playerNowMoving;
   }
 
@@ -250,15 +252,15 @@ export class GameLogicService {
     if (!this._isValidDim(row) || !this._isValidDim(col)) {
       return false;
     }
-    const targetSquare: Square = this.$chessGame().squares[row][col];
+    const targetSquare: ChessSquare = this.$chessGame().squares[row][col];
     return !targetSquare.piece || targetSquare.piece.color !== this.$chessGame().playerNowMoving;
   }
   private _isValidDim(idx: number): boolean {
     return idx < chessBoardDim && idx >= 0;
   }
 
-  private _canMove(square: Square, endPos: Position): boolean {
-    const possibleMoves: Square[] = this.getPossibleMoves(square);
+  private _canMove(square: ChessSquare, endPos: ChessPosition): boolean {
+    const possibleMoves: ChessSquare[] = this.getPossibleMoves(square);
     return !!possibleMoves.find(
       (targetSquare) => targetSquare.pos.col === endPos.col && targetSquare.pos.row === endPos.row,
     );

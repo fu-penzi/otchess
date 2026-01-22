@@ -12,7 +12,7 @@ import { UrlEnum } from '@app/app.routes';
   styleUrl: './navbar.component.scss',
 })
 export class NavbarComponent {
-  private _router: Router = inject(Router);
+  private _router = inject(Router);
 
   goToLogin(): void {
     this._router.navigateByUrl(UrlEnum.LOGIN);

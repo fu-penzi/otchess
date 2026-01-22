@@ -1,11 +1,12 @@
 :host {
   display: block;
-  max-height: 80vh;
+  max-height: 50vh;
   min-width: 300px;
 }
 
 .moves {
   width: 100%;
+  min-height: 100%;
 }
 
 td {
